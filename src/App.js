@@ -5,7 +5,6 @@ import MapColumn from './components/MapColumn'
 import './App.css';
 const herokuSite = 'https://protected-woodland-92722.herokuapp.com/api/todo'
 const localHost = 'http://localhost:8000/api/todo'
-// 'todo' 'doing' 'done'
 
 function App() {
   const [todos, setTodos] = useState(
@@ -27,10 +26,7 @@ function App() {
     })
     } catch (error){
       console.error(error)
-    }
-    
-
-    
+    }  
   }
   const handleCreate = async (createTodo) => {
     try{
@@ -65,21 +61,8 @@ function App() {
     <MapColumn title="DOING" todos={todos.doingTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
     <MapColumn title="DONE" todos={todos.doneTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
     </div>
-
     </div>
   );
 }
 
 export default App;
-
-
-{/* {todos.map((todo,i) => {
-      return(
-        <div key={i}> 
-        <h1>{todo.title}</h1> 
-        <h2>{todo.task}</h2>
-        <Edit todo={todo} handleUpdate={handleUpdate} />
-        <button onClick={handleDelete}  value={todo.id} > Delete</button>
-        </div>
-      )
-    })} */}

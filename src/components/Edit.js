@@ -6,7 +6,7 @@ const Edit = (props) => {
 
     const handleChange = (event) => {
         setEditTodo({ ...editTodo, [event.target.name]: event.target.value })
-        // console.log(editTodo);
+        console.log(props.todo);
     }
     const handleSubmit = (event) => {
         event.preventDefault()
@@ -24,7 +24,7 @@ const Edit = (props) => {
           <label htmlFor="task">Task: </label>
           <input type="text" name="task"  onChange={handleChange} value={editTodo.task}/>
           <select name="todo_choices" onChange={handleChange}>
-            <option value="todo">Todo</option>
+            <option value="todo" >Todo</option>
             <option value="doing">Doing</option>
             <option value="done">Done</option>
           </select>
