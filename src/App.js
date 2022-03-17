@@ -19,8 +19,7 @@ function App() {
     {needTodo:[],
     doingTodo:[],
     doneTodo:[]}
-  ) 
-
+  )
 
   const getTodos = async () => {
     try{
@@ -35,7 +34,7 @@ function App() {
     })
     } catch (error){
       console.error(error)
-    }  
+    }
   }
   const handleCreate = async (createTodo) => {
     try{
@@ -64,6 +63,7 @@ function App() {
           response.data = {id: response.data.id, username: response.data.username}
           console.log(response.data)
           setCurrentUser(response.data)
+          setLoginMessage('')
         },
         (error) => {
           console.error('Then Error: ', error.toJSON())
@@ -78,10 +78,25 @@ function App() {
   const handleLogin = (user) => {
     axios
       .put('http://localhost:8000/api/user/login', user)
-      .then((response) => {
-        response.data = {id: response.data.id, username: response.data.username}
-        setCurrentUser(response.data)
-      })
+      .then(
+        (response) => {
+          if (response.data.username){
+            response.data = {id: response.data.id, username: response.data.username}
+            setCurrentUser(response.data)
+            setLoginMessage('')
+          } else {
+            setLoginMessage('Username not found')
+            setCurrentUser(response.data)
+          }
+        },
+        (error) => {
+          setLoginMessage('Username or Password Incorrect')
+        }
+      )
+  }
+
+  const handleLogout = () => {
+    setCurrentUser({username: '', password: ''})
   }
 
   useEffect(() => {
@@ -91,7 +106,7 @@ function App() {
   return (
     <div>
     <h1>Hi {currentUser.username}</h1>
-    <Login handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={user} loginMessage={loginMessage}/>
+    <Login handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={currentUser} loginMessage={loginMessage} handleLogout={handleLogout}/>
     <Add handleCreate={handleCreate}/>
     <div className='mapColumnDiv'>
     <MapColumn title="TODO"  todos={todos.needTodo}  handleUpdate={handleUpdate} handleDelete={handleDelete} />
