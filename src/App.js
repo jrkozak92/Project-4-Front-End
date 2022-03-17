@@ -2,10 +2,12 @@ import {useState, useEffect} from 'react'
 import axios from 'axios'
 import Add from './components/Add'
 import Edit from './components/Edit'
+import Login from './components/Login'
 import './App.css';
 
 function App() {
   let [todos, setTodos] = useState([])
+  const [user, setUser] = useState({username: '', password: ''})
 
   const getTodos = async () => {
     try{
@@ -34,20 +36,38 @@ function App() {
     getTodos()
   }
 
+  const handleCreateUser = (user) => {
+    axios
+      .post('http://localhost:8000/api/user', user)
+      .then((response) => {
+        response.data = {id: response.data.id, username: response.data.username}
+        console.log(response.data)
+        setUser(response.data)
+      })
+  }
+
+  const handleLogin = (user) => {
+    axios
+      .put('http://localhost:8000/api/user/login', user)
+      .then((response) => {
+        setUser(response.data)
+      })
+  }
+
   useEffect(() => {
     getTodos()
   },[])
 
   return (
     <div>
-    <h1>Hi</h1>
-
+    <h1>Hi {user.username}</h1>
+    <Login handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={user}/>
     <Add handleCreate={handleCreate}/>
 
     {todos.map((todo,i) => {
       return(
-        <div key={i}> 
-        <h1>{todo.title}</h1> 
+        <div key={i}>
+        <h1>{todo.title}</h1>
         <h2>{todo.task}</h2>
         <Edit todo={todo} handleUpdate={handleUpdate} />
         <button onClick={handleDelete}  value={todo.id} > Delete</button>
