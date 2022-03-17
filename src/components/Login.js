@@ -2,7 +2,6 @@ import {useState, useEffect} from 'react'
 
 const Login = (props) => {
   const [user, setUser] = useState({...props.user})
-  const [loginMessage, setLoginMessage] = useState('')
   const [accountCreate, setAccountCreate] = useState(false)
 
   const handleChange = (event) => {
@@ -18,6 +17,7 @@ const Login = (props) => {
   const handleLogin = (event) => {
     event.preventDefault()
     props.handleLogin(user)
+    setUser({})
   }
 
   return (
@@ -28,6 +28,7 @@ const Login = (props) => {
           <form onSubmit={handleCreateUser}>
             <input type="text" name="username" placeholder="Username" onChange={handleChange}/>
             <input type="text" name="password" placeholder="Password" onChange={handleChange}/>
+            <p>{props.loginMessage}</p>
             <input type="submit" value="Create Account"/>
           </form>
           <button onClick={() => setAccountCreate(!accountCreate)}>I have an Account</button>
@@ -38,7 +39,7 @@ const Login = (props) => {
           <form onSubmit={handleLogin}>
             <input type="text" name="username" placeholder="Username" onChange={handleChange}/>
             <input type="text" name="password" placeholder="Password" onChange={handleChange}/>
-            <p>{loginMessage}</p>
+            <p>{props.loginMessage}</p>
             <input type="submit" value="Login"/>
           </form>
           <button onClick={() => setAccountCreate(!accountCreate)}>I don't have an Account</button>

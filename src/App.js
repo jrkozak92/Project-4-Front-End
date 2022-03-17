@@ -8,6 +8,8 @@ import './App.css';
 function App() {
   let [todos, setTodos] = useState([])
   const [user, setUser] = useState({username: '', password: ''})
+  const [currentUser, setCurrentUser] = useState({id: '', username: ''})
+  const [loginMessage, setLoginMessage] = useState('')
 
   const getTodos = async () => {
     try{
@@ -39,10 +41,19 @@ function App() {
   const handleCreateUser = (user) => {
     axios
       .post('http://localhost:8000/api/user', user)
-      .then((response) => {
-        response.data = {id: response.data.id, username: response.data.username}
-        console.log(response.data)
-        setUser(response.data)
+      .then(
+        (response) => {
+          response.data = {id: response.data.id, username: response.data.username}
+          console.log(response.data)
+          setCurrentUser(response.data)
+        },
+        (error) => {
+          console.error('Then Error: ', error.toJSON())
+          setLoginMessage('Username Already Exists')
+        }
+      )
+      .catch((error) => {
+        console.error('Catch Error: ', error.toJSON())
       })
   }
 
@@ -50,7 +61,8 @@ function App() {
     axios
       .put('http://localhost:8000/api/user/login', user)
       .then((response) => {
-        setUser(response.data)
+        response.data = {id: response.data.id, username: response.data.username}
+        setCurrentUser(response.data)
       })
   }
 
@@ -60,8 +72,8 @@ function App() {
 
   return (
     <div>
-    <h1>Hi {user.username}</h1>
-    <Login handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={user}/>
+    <h1>Hi {currentUser.username}</h1>
+    <Login handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={user} loginMessage={loginMessage}/>
     <Add handleCreate={handleCreate}/>
 
     {todos.map((todo,i) => {
