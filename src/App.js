@@ -1,23 +1,40 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import Add from './components/Add'
-import Edit from './components/Edit'
+import MapColumn from './components/MapColumn'
 import './App.css';
+const herokuSite = 'https://protected-woodland-92722.herokuapp.com/api/todo'
+const localHost = 'http://localhost:8000/api/todo'
+// 'todo' 'doing' 'done'
 
 function App() {
-  let [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState(
+    {needTodo:[],
+    doingTodo:[],
+    doneTodo:[]}
+  ) 
 
   const getTodos = async () => {
     try{
-    const allTodos = await axios.get('https://protected-woodland-92722.herokuapp.com/api/todo')
-    setTodos(allTodos.data)
+    const allTodos = await axios.get(localHost)
+    const needTodo = allTodos.data.filter((t) => { return t.todo_choices == 'todo'})
+    const doingTodo = allTodos.data.filter((t) => { return t.todo_choices == 'doing'})
+    const doneTodo = allTodos.data.filter((t) => { return t.todo_choices == 'done'})
+    setTodos({
+      needTodo:needTodo,
+      doingTodo:doingTodo,
+      doneTodo:doneTodo
+    })
     } catch (error){
       console.error(error)
     }
+    
+
+    
   }
   const handleCreate = async (createTodo) => {
     try{
-      const idk = await axios.post('https://protected-woodland-92722.herokuapp.com/api/todo',createTodo )
+      const idk = await axios.post(localHost,createTodo )
       getTodos()
     } catch (error){
       console.error(error)
@@ -25,12 +42,12 @@ function App() {
   }
 
   const handleDelete = async (event) => {
-    const idk = await axios.delete('https://protected-woodland-92722.herokuapp.com/api/todo/'+ event.target.value )
+    const idk = await axios.delete(localHost+'/'+ event.target.value )
     getTodos()
   }
 
   const handleUpdate = async (edit) => {
-    const idk = await axios.put('https://protected-woodland-92722.herokuapp.com/api/todo/'+edit.id, edit  )
+    const idk = await axios.put(localHost+'/'+edit.id, edit)
     getTodos()
   }
 
@@ -43,8 +60,20 @@ function App() {
     <h1>Hi</h1>
 
     <Add handleCreate={handleCreate}/>
+    <div className='mapColumnDiv'>
+    <MapColumn title="TODO"  todos={todos.needTodo}  handleUpdate={handleUpdate} handleDelete={handleDelete} />
+    <MapColumn title="DOING" todos={todos.doingTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
+    <MapColumn title="DONE" todos={todos.doneTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
+    </div>
 
-    {todos.map((todo,i) => {
+    </div>
+  );
+}
+
+export default App;
+
+
+{/* {todos.map((todo,i) => {
       return(
         <div key={i}> 
         <h1>{todo.title}</h1> 
@@ -53,9 +82,4 @@ function App() {
         <button onClick={handleDelete}  value={todo.id} > Delete</button>
         </div>
       )
-    })}
-    </div>
-  );
-}
-
-export default App;
+    })} */}

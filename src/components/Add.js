@@ -18,11 +18,11 @@ const Add = (props) => {
       <>
         <form onSubmit={handleSubmit}>
           <label htmlFor="title">Title: </label>
-          <input type="text" name="title" onChange={handleChange} value={newTodo.title} />
+          <input type="text" name="title" onChange={handleChange} value={newTodo.title} required />
           <br />
           <br />
           <label htmlFor="task">Task: </label>
-          <input type="text" name="task"  onChange={handleChange} value={newTodo.task}/>
+          <input type="text" name="task"  onChange={handleChange} value={newTodo.task} required/>
           <input type="submit"/>
         </form>
       </>
