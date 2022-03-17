@@ -3,25 +3,43 @@ import axios from 'axios'
 import Add from './components/Add'
 import Edit from './components/Edit'
 import Login from './components/Login'
+import MapColumn from './components/MapColumn'
+
 import './App.css';
+const herokuSite = 'https://protected-woodland-92722.herokuapp.com/api/todo'
+const localHost = 'http://localhost:8000/api/todo'
 
 function App() {
-  let [todos, setTodos] = useState([])
+
   const [user, setUser] = useState({username: '', password: ''})
   const [currentUser, setCurrentUser] = useState({id: '', username: ''})
   const [loginMessage, setLoginMessage] = useState('')
 
+  const [todos, setTodos] = useState(
+    {needTodo:[],
+    doingTodo:[],
+    doneTodo:[]}
+  ) 
+
+
   const getTodos = async () => {
     try{
-    const allTodos = await axios.get('https://protected-woodland-92722.herokuapp.com/api/todo')
-    setTodos(allTodos.data)
+    const allTodos = await axios.get(localHost)
+    const needTodo = allTodos.data.filter((t) => { return t.todo_choices == 'todo'})
+    const doingTodo = allTodos.data.filter((t) => { return t.todo_choices == 'doing'})
+    const doneTodo = allTodos.data.filter((t) => { return t.todo_choices == 'done'})
+    setTodos({
+      needTodo:needTodo,
+      doingTodo:doingTodo,
+      doneTodo:doneTodo
+    })
     } catch (error){
       console.error(error)
-    }
+    }  
   }
   const handleCreate = async (createTodo) => {
     try{
-      const idk = await axios.post('https://protected-woodland-92722.herokuapp.com/api/todo',createTodo )
+      const idk = await axios.post(localHost,createTodo )
       getTodos()
     } catch (error){
       console.error(error)
@@ -29,12 +47,12 @@ function App() {
   }
 
   const handleDelete = async (event) => {
-    const idk = await axios.delete('https://protected-woodland-92722.herokuapp.com/api/todo/'+ event.target.value )
+    const idk = await axios.delete(localHost+'/'+ event.target.value )
     getTodos()
   }
 
   const handleUpdate = async (edit) => {
-    const idk = await axios.put('https://protected-woodland-92722.herokuapp.com/api/todo/'+edit.id, edit  )
+    const idk = await axios.put(localHost+'/'+edit.id, edit)
     getTodos()
   }
 
@@ -75,17 +93,11 @@ function App() {
     <h1>Hi {currentUser.username}</h1>
     <Login handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={user} loginMessage={loginMessage}/>
     <Add handleCreate={handleCreate}/>
-
-    {todos.map((todo,i) => {
-      return(
-        <div key={i}>
-        <h1>{todo.title}</h1>
-        <h2>{todo.task}</h2>
-        <Edit todo={todo} handleUpdate={handleUpdate} />
-        <button onClick={handleDelete}  value={todo.id} > Delete</button>
-        </div>
-      )
-    })}
+    <div className='mapColumnDiv'>
+    <MapColumn title="TODO"  todos={todos.needTodo}  handleUpdate={handleUpdate} handleDelete={handleDelete} />
+    <MapColumn title="DOING" todos={todos.doingTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
+    <MapColumn title="DONE" todos={todos.doneTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
+    </div>
     </div>
   );
 }
