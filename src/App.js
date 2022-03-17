@@ -1,17 +1,26 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import Add from './components/Add'
+import Edit from './components/Edit'
+import Login from './components/Login'
 import MapColumn from './components/MapColumn'
+
 import './App.css';
 const herokuSite = 'https://protected-woodland-92722.herokuapp.com/api/todo'
 const localHost = 'http://localhost:8000/api/todo'
 
 function App() {
+
+  const [user, setUser] = useState({username: '', password: ''})
+  const [currentUser, setCurrentUser] = useState({id: '', username: ''})
+  const [loginMessage, setLoginMessage] = useState('')
+
   const [todos, setTodos] = useState(
     {needTodo:[],
     doingTodo:[],
     doneTodo:[]}
   ) 
+
 
   const getTodos = async () => {
     try{
@@ -47,14 +56,42 @@ function App() {
     getTodos()
   }
 
+  const handleCreateUser = (user) => {
+    axios
+      .post('http://localhost:8000/api/user', user)
+      .then(
+        (response) => {
+          response.data = {id: response.data.id, username: response.data.username}
+          console.log(response.data)
+          setCurrentUser(response.data)
+        },
+        (error) => {
+          console.error('Then Error: ', error.toJSON())
+          setLoginMessage('Username Already Exists')
+        }
+      )
+      .catch((error) => {
+        console.error('Catch Error: ', error.toJSON())
+      })
+  }
+
+  const handleLogin = (user) => {
+    axios
+      .put('http://localhost:8000/api/user/login', user)
+      .then((response) => {
+        response.data = {id: response.data.id, username: response.data.username}
+        setCurrentUser(response.data)
+      })
+  }
+
   useEffect(() => {
     getTodos()
   },[])
 
   return (
     <div>
-    <h1>Hi</h1>
-
+    <h1>Hi {currentUser.username}</h1>
+    <Login handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={user} loginMessage={loginMessage}/>
     <Add handleCreate={handleCreate}/>
     <div className='mapColumnDiv'>
     <MapColumn title="TODO"  todos={todos.needTodo}  handleUpdate={handleUpdate} handleDelete={handleDelete} />
