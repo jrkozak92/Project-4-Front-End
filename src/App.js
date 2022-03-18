@@ -14,13 +14,13 @@ function App() {
   const [user, setUser] = useState({username: '', password: ''})
   const [currentUser, setCurrentUser] = useState({id: '', username: ''})
   const [loginMessage, setLoginMessage] = useState('')
+  const [loggedIn, setLoggedIn] = useState(false)
 
   const [todos, setTodos] = useState(
     {needTodo:[],
     doingTodo:[],
     doneTodo:[]}
-  ) 
-
+  )
 
   const getTodos = async () => {
     try{
@@ -35,7 +35,7 @@ function App() {
     })
     } catch (error){
       console.error(error)
-    }  
+    }
   }
   const handleCreate = async (createTodo) => {
     try{
@@ -64,6 +64,8 @@ function App() {
           response.data = {id: response.data.id, username: response.data.username}
           console.log(response.data)
           setCurrentUser(response.data)
+          setLoginMessage('')
+          toggleLogout()
         },
         (error) => {
           console.error('Then Error: ', error.toJSON())
@@ -78,10 +80,32 @@ function App() {
   const handleLogin = (user) => {
     axios
       .put('http://localhost:8000/api/user/login', user)
-      .then((response) => {
-        response.data = {id: response.data.id, username: response.data.username}
-        setCurrentUser(response.data)
-      })
+      .then(
+        (response) => {
+          if (response.data.username){
+            response.data = {id: response.data.id, username: response.data.username}
+            setCurrentUser(response.data)
+            setLoginMessage('')
+            toggleLogout()
+          } else {
+            setLoginMessage('Username or Password Incorrect')
+            setCurrentUser(response.data)
+          }
+        },
+        (error) => {
+          setLoginMessage('Username or Password Incorrect')
+        }
+      )
+  }
+
+  const toggleLogout = () => {
+    if (loggedIn ) {
+      setLoggedIn(!loggedIn)
+      setUser({username: '', password: ''})
+      setCurrentUser({id: '', username: ''})
+    } else {
+      setLoggedIn(!loggedIn)
+    }
   }
 
   useEffect(() => {
@@ -91,7 +115,7 @@ function App() {
   return (
     <div>
     <h1>Hi {currentUser.username}</h1>
-    <Login handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={user} loginMessage={loginMessage}/>
+    <Login handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={currentUser} loginMessage={loginMessage} toggleLogout={toggleLogout} loggedIn={loggedIn}/>
     <Add handleCreate={handleCreate}/>
     <div className='mapColumnDiv'>
     <MapColumn title="TODO"  todos={todos.needTodo}  handleUpdate={handleUpdate} handleDelete={handleDelete} />

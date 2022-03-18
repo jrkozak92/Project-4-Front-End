@@ -17,32 +17,42 @@ const Login = (props) => {
   const handleLogin = (event) => {
     event.preventDefault()
     props.handleLogin(user)
-    setUser({})
+  }
+
+  const handleLogout = (event) => {
+    props.toggleLogout()
+    setUser({...props.user})
   }
 
   return (
     <>
-      { accountCreate ?
-        <>
-          <h5>Create Account</h5>
-          <form onSubmit={handleCreateUser}>
-            <input type="text" name="username" placeholder="Username" onChange={handleChange}/>
-            <input type="text" name="password" placeholder="Password" onChange={handleChange}/>
-            <p>{props.loginMessage}</p>
-            <input type="submit" value="Create Account"/>
-          </form>
-          <button onClick={() => setAccountCreate(!accountCreate)}>I have an Account</button>
-        </>
+      { props.loggedIn ?
+        <button onClick={handleLogout}>Logout</button>
           :
         <>
-          <h5>Login</h5>
-          <form onSubmit={handleLogin}>
-            <input type="text" name="username" placeholder="Username" onChange={handleChange}/>
-            <input type="text" name="password" placeholder="Password" onChange={handleChange}/>
-            <p>{props.loginMessage}</p>
-            <input type="submit" value="Login"/>
-          </form>
-          <button onClick={() => setAccountCreate(!accountCreate)}>I don't have an Account</button>
+          { accountCreate ?
+            <>
+              <h5>Create Account</h5>
+              <form onSubmit={handleCreateUser}>
+                <input type="text" name="username" placeholder="Username" onChange={handleChange}/>
+                <input type="text" name="password" placeholder="Password" onChange={handleChange}/>
+                <p>{props.loginMessage}</p>
+                <input type="submit" value="Create Account"/>
+              </form>
+              <button onClick={() => setAccountCreate(!accountCreate)}>I have an Account</button>
+            </>
+              :
+            <>
+              <h5>Login</h5>
+              <form onSubmit={handleLogin}>
+                <input type="text" name="username" placeholder="Username" onChange={handleChange}/>
+                <input type="text" name="password" placeholder="Password" onChange={handleChange}/>
+                <p>{props.loginMessage}</p>
+                <input type="submit" value="Login"/>
+              </form>
+              <button onClick={() => setAccountCreate(!accountCreate)}>I don't have an Account</button>
+            </>
+          }
         </>
       }
     </>
