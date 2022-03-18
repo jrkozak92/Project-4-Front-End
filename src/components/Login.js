@@ -3,7 +3,6 @@ import {useState, useEffect} from 'react'
 const Login = (props) => {
   const [user, setUser] = useState({...props.user})
   const [accountCreate, setAccountCreate] = useState(false)
-  const [loggedIn, setLoggedIn] = useState(false)
 
   const handleChange = (event) => {
     setUser({...user, [event.target.name]: event.target.value})
@@ -13,28 +12,21 @@ const Login = (props) => {
     event.preventDefault()
     console.log('Login User: ', user);
     props.handleCreateUser(user)
-    if (props.user.username && props.user.username !== '') {
-      setLoggedIn(true)
-    }
   }
 
   const handleLogin = (event) => {
     event.preventDefault()
     props.handleLogin(user)
-    if (props.user.username && props.user.username !== '') {
-      setLoggedIn(true)
-    }
   }
 
   const handleLogout = (event) => {
-    props.handleLogout()
-    setLoggedIn(false)
+    props.toggleLogout()
+    setUser({...props.user})
   }
-
 
   return (
     <>
-      { loggedIn ?
+      { props.loggedIn ?
         <button onClick={handleLogout}>Logout</button>
           :
         <>

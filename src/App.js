@@ -14,6 +14,7 @@ function App() {
   const [user, setUser] = useState({username: '', password: ''})
   const [currentUser, setCurrentUser] = useState({id: '', username: ''})
   const [loginMessage, setLoginMessage] = useState('')
+  const [loggedIn, setLoggedIn] = useState(false)
 
   const [todos, setTodos] = useState(
     {needTodo:[],
@@ -64,6 +65,7 @@ function App() {
           console.log(response.data)
           setCurrentUser(response.data)
           setLoginMessage('')
+          toggleLogout()
         },
         (error) => {
           console.error('Then Error: ', error.toJSON())
@@ -84,8 +86,9 @@ function App() {
             response.data = {id: response.data.id, username: response.data.username}
             setCurrentUser(response.data)
             setLoginMessage('')
+            toggleLogout()
           } else {
-            setLoginMessage('Username not found')
+            setLoginMessage('Username or Password Incorrect')
             setCurrentUser(response.data)
           }
         },
@@ -95,8 +98,14 @@ function App() {
       )
   }
 
-  const handleLogout = () => {
-    setCurrentUser({username: '', password: ''})
+  const toggleLogout = () => {
+    if (loggedIn ) {
+      setLoggedIn(!loggedIn)
+      setUser({username: '', password: ''})
+      setCurrentUser({id: '', username: ''})
+    } else {
+      setLoggedIn(!loggedIn)
+    }
   }
 
   useEffect(() => {
@@ -106,7 +115,7 @@ function App() {
   return (
     <div>
     <h1>Hi {currentUser.username}</h1>
-    <Login handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={currentUser} loginMessage={loginMessage} handleLogout={handleLogout}/>
+    <Login handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={currentUser} loginMessage={loginMessage} toggleLogout={toggleLogout} loggedIn={loggedIn}/>
     <Add handleCreate={handleCreate}/>
     <div className='mapColumnDiv'>
     <MapColumn title="TODO"  todos={todos.needTodo}  handleUpdate={handleUpdate} handleDelete={handleDelete} />
