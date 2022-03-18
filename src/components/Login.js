@@ -3,6 +3,8 @@ import {useState, useEffect} from 'react'
 const Login = (props) => {
   const [user, setUser] = useState({...props.user})
   const [accountCreate, setAccountCreate] = useState(false)
+  const [showAccountSettings, setShowAccountSettings] = useState(false)
+  const [showPasswordForm, setShowPasswordForm] = useState(false)
 
   const handleChange = (event) => {
     setUser({...user, [event.target.name]: event.target.value})
@@ -24,11 +26,44 @@ const Login = (props) => {
     setUser({...props.user})
   }
 
+  const toggleShowSettings = () => {
+    setShowAccountSettings(!showAccountSettings)
+  }
+
+  const togglePasswordForm = () => {
+    setShowPasswordForm(!showPasswordForm)
+  }
+
   return (
     <>
       { props.loggedIn ?
         <>
-          <button onClick={handleLogout}>Logout</button>
+          { !showAccountSettings ?
+            <>
+              <button onClick={handleLogout}>Logout</button><br/>
+              <button onClick={toggleShowSettings}>Account Settings</button><br/>
+            </>
+              :
+            <>
+              <button onClick={props.handleDeleteUser}>Delete Account</button><br/>
+              { showPasswordForm ?
+                <>
+                  <form onSubmit={(event)=> props.handleUpdatePassword(event)}>
+                    <input type="password" name="newPassword" onChange={handleChange} value={user.password}/><br/>
+                    <input type="submit" value="Update Password"/>
+                  </form>
+                  <button onClick={togglePasswordForm}>Cancel</button>
+                </>
+                  :
+                <>
+                  <button onClick={togglePasswordForm}>Change Password</button>
+                </>
+              }
+              <br/>
+              <br/>
+              <button onClick={toggleShowSettings}>Back</button>
+            </>
+          }
         </>
           :
         <>
