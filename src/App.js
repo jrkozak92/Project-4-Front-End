@@ -2,8 +2,8 @@ import {useState, useEffect} from 'react'
 import axios from 'axios'
 import Add from './components/Add'
 import Edit from './components/Edit'
-import Login from './components/Login'
 import MapColumn from './components/MapColumn'
+import Nav from './components/Nav'
 
 import './App.css';
 const herokuSite = 'https://protected-woodland-92722.herokuapp.com/api/todo'
@@ -114,14 +114,14 @@ function App() {
 
   return (
     <div>
-    <h1>Hi {currentUser.username}</h1>
-    <Login handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={currentUser} loginMessage={loginMessage} toggleLogout={toggleLogout} loggedIn={loggedIn}/>
-    <Add handleCreate={handleCreate}/>
-    <div className='mapColumnDiv'>
-    <MapColumn title="TODO"  todos={todos.needTodo}  handleUpdate={handleUpdate} handleDelete={handleDelete} />
-    <MapColumn title="DOING" todos={todos.doingTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
-    <MapColumn title="DONE" todos={todos.doneTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
-    </div>
+      <Nav handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={currentUser} loginMessage={loginMessage} toggleLogout={toggleLogout} loggedIn={loggedIn}/>
+      <h1>Hi {currentUser.username}</h1>
+      <Add handleCreate={handleCreate}/>
+      <div className='mapColumnDiv'>
+        <MapColumn title="TODO"  todos={todos.needTodo}  handleUpdate={handleUpdate} handleDelete={handleDelete} />
+        <MapColumn title="DOING" todos={todos.doingTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
+        <MapColumn title="DONE" todos={todos.doneTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
+      </div>
     </div>
   );
 }
