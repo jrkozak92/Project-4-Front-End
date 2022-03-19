@@ -77,6 +77,21 @@ function App() {
       })
   }
 
+  const handleDeleteUser = () => {
+    axios
+      .delete('http://localhost:8000/api/user/' + currentUser.id)
+      .then(
+        (response) => {
+          toggleLogout()
+        },
+        (error) => {
+          console.error('Delete Refused: ', error.toJSON())
+        }
+    )
+  }
+
+
+
   const handleLogin = (user) => {
     axios
       .put('http://localhost:8000/api/user/login', user)
@@ -114,7 +129,7 @@ function App() {
 
   return (
     <div>
-      <Nav handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={currentUser} loginMessage={loginMessage} toggleLogout={toggleLogout} loggedIn={loggedIn}/>
+      <Nav handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={user} currentUser={currentUser} loginMessage={loginMessage} toggleLogout={toggleLogout} loggedIn={loggedIn} handleDeleteUser={handleDeleteUser} />
       <h1>Hi {currentUser.username}</h1>
       <Add handleCreate={handleCreate}/>
       <div className='mapColumnDiv'>
