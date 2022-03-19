@@ -79,27 +79,18 @@ function App() {
 
   const handleDeleteUser = () => {
     axios
-      .delete('http://localhost/api/user/' + user.id)
-      .then((response) => {
-            toggleLogout()
-      }
+      .delete('http://localhost:8000/api/user/' + currentUser.id)
+      .then(
+        (response) => {
+          toggleLogout()
+        },
+        (error) => {
+          console.error('Delete Refused: ', error.toJSON())
+        }
     )
   }
 
-  const handleUpdatePassword = (event) => {
-    event.preventDefault()
-    const newPassword = event.target.value
-    axios
-      .put('http://localhost/api/user/' + user.id, newPassword)
-      .then(
-        (response) => {
-          alert('Your Password has been updated')
-        },
-        (error) => {
-          console.error('User not found', error)
-        }
-      )
-  }
+
 
   const handleLogin = (user) => {
     axios
@@ -138,7 +129,7 @@ function App() {
 
   return (
     <div>
-      <Nav handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={currentUser} loginMessage={loginMessage} toggleLogout={toggleLogout} loggedIn={loggedIn} handleDeleteUser={handleDeleteUser} handleUpdatePassword={handleUpdatePassword}/>
+      <Nav handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={user} currentUser={currentUser} loginMessage={loginMessage} toggleLogout={toggleLogout} loggedIn={loggedIn} handleDeleteUser={handleDeleteUser} />
       <h1>Hi {currentUser.username}</h1>
       <Add handleCreate={handleCreate}/>
       <div className='mapColumnDiv'>
