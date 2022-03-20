@@ -1,9 +1,9 @@
 import {useState, useEffect} from 'react'
 import axios from 'axios'
 import Add from './components/Add'
-import Edit from './components/Edit'
 import MapColumn from './components/MapColumn'
 import Nav from './components/Nav'
+import GlobalChat from './components/GlobalChat'
 
 import './App.css';
 const herokuSite = 'https://protected-woodland-92722.herokuapp.com/api/todo'
@@ -129,6 +129,7 @@ function App() {
 
   return (
     <div>
+      <GlobalChat/>
       <Nav handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={user} currentUser={currentUser} loginMessage={loginMessage} toggleLogout={toggleLogout} loggedIn={loggedIn} handleDeleteUser={handleDeleteUser} />
       <h1>Hi {currentUser.username}</h1>
       <Add handleCreate={handleCreate}/>
