@@ -14,10 +14,10 @@ const Nav = (props) => {
 
   return (
     <div className="nav-bar">
-      <div onClick={() => handleSelection('account')}>
-        Account
+      <div>
+        <p onClick={() => handleSelection('account')}>Account</p>
         { selection === 'account' ?
-          <Login handleCreateUser={props.handleCreateUser} handleLogin={props.handleLogin} user={props.currentUser} loginMessage={props.loginMessage} toggleLogout={props.toggleLogout} loggedIn={props.loggedIn}/>
+          <Login handleCreateUser={props.handleCreateUser} handleLogin={props.handleLogin} user={props.user} currentUser={props.currentUser} loginMessage={props.loginMessage} toggleLogout={props.toggleLogout} loggedIn={props.loggedIn} handleDeleteUser={props.handleDeleteUser}/>
             :
           null
         }
