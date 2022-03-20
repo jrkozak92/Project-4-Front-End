@@ -74,11 +74,11 @@ const Login = (props) => {
               {showPasswordForm ? (
                 <>
                   <form onSubmit={(event) => handleUpdatePassword(event, user)}>
-                    <input type="password" name="password" onChange={handleChange} value={user.password} style={{ backgroundColor: "rgb(248,239,212)", marginRight: "5px", border: "1.5px solid rgb(215,56,94)", borderRadius: "5px" }} />
+                    <input type="password" name="password" onChange={handleChange} value={user.password} style={{ backgroundColor: "rgb(248,239,212)", marginRight: "5px", border: "1.5px solid rgb(215,56,94)", borderRadius: "5px", marginBottom: "10px" }} />
                     <br />
                     <input type="submit" value="Update Password" style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "10px", fontSize: "1rem", padding: "4px 7px" }} />
                   </form>
-                  <button onClick={togglePasswordForm} style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "10px", fontSize: "1rem", padding: "4px 7px" }}>
+                  <button onClick={togglePasswordForm} style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", fontSize: "1rem", padding: "4px 7px" }}>
                     Cancel
                   </button>
                 </>

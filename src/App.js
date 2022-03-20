@@ -128,7 +128,7 @@ function App() {
       <h1>Hi {currentUser.username}</h1>
       <Add handleCreate={handleCreate} />
       <div className="mapColumnDiv" style={{ marginBottom: "30px", marginLeft: "15px", marginRight: "15px" }}>
-        <MapColumn title="TODO" todos={todos.needTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} style={{ width: "80%" }} />
+        <MapColumn title="TODO" todos={todos.needTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
         <MapColumn title="DOING" todos={todos.doingTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
         <MapColumn title="DONE" todos={todos.doneTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
       </div>
