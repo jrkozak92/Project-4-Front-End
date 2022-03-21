@@ -12,7 +12,7 @@ const localHost = 'http://localhost:8000/api/todo'
 function App() {
 
   const [user, setUser] = useState({username: '', password: ''})
-  const [currentUser, setCurrentUser] = useState({id: '', username: ''})
+  const [currentUser, setCurrentUser] = useState({id: '', username: '', lists: '', requests: ''})
   const [loginMessage, setLoginMessage] = useState('')
   const [loggedIn, setLoggedIn] = useState(false)
 
@@ -37,6 +37,7 @@ function App() {
       console.error(error)
     }
   }
+
   const handleCreate = async (createTodo) => {
     try{
       const idk = await axios.post(localHost,createTodo )
@@ -90,8 +91,6 @@ function App() {
     )
   }
 
-
-
   const handleLogin = (user) => {
     axios
       .put('http://localhost:8000/api/user/login', user)
@@ -122,6 +121,8 @@ function App() {
       setLoggedIn(!loggedIn)
     }
   }
+
+
 
   useEffect(() => {
     getTodos()
