@@ -13,6 +13,7 @@ const Add = (props) => {
     setnewTodo(emptyTodo)
   };
 
+
   return (
     <>
       <div className="add">
