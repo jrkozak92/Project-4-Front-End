@@ -1,16 +1,20 @@
-import {useState, useEffect} from 'react'
-import axios from 'axios'
-import Add from './components/Add'
-import Edit from './components/Edit'
-import MapColumn from './components/MapColumn'
-import Nav from './components/Nav'
+import { useState, useEffect } from "react";
+import axios from "axios";
+import Add from "./components/Add";
+import Edit from "./components/Edit";
+import MapColumn from "./components/MapColumn";
+import Nav from "./components/Nav";
+import GlobalChat from "./components/GlobalChat";
+import "./App.css";
 
-
-import './App.css';
-const herokuSite = 'https://protected-woodland-92722.herokuapp.com/api/todo'
-const localHost = 'http://localhost:8000/api/todo'
+const herokuSite = "https://protected-woodland-92722.herokuapp.com/api/todo";
+const localHost = "http://localhost:8000/api/todo";
 
 function App() {
+  const [user, setUser] = useState({ username: "", password: "" });
+  const [currentUser, setCurrentUser] = useState({ id: "", username: "" });
+  const [loginMessage, setLoginMessage] = useState("");
+  const [loggedIn, setLoggedIn] = useState(false);
 
   const [user, setUser] = useState({username: '', password: ''})
   const [currentUser, setCurrentUser] = useState({id: '', username: '', list_names: '', requests: ''})
@@ -25,21 +29,28 @@ function App() {
     doneTodo:[]}
   )
 
+
   const [listSpecificTodos, setListSpecificTodos] = useState(todos)
 
   const getTodos = async () => {
-    try{
-    const allTodos = await axios.get(localHost)
-    const needTodo = allTodos.data.filter((t) => { return t.todo_choices == 'todo'})
-    const doingTodo = allTodos.data.filter((t) => { return t.todo_choices == 'doing'})
-    const doneTodo = allTodos.data.filter((t) => { return t.todo_choices == 'done'})
-    setTodos({
-      needTodo:needTodo,
-      doingTodo:doingTodo,
-      doneTodo:doneTodo
-    })
-    } catch (error){
-      console.error(error)
+    try {
+      const allTodos = await axios.get(herokuSite);
+      const needTodo = allTodos.data.filter((t) => {
+        return t.todo_choices == "todo";
+      });
+      const doingTodo = allTodos.data.filter((t) => {
+        return t.todo_choices == "doing";
+      });
+      const doneTodo = allTodos.data.filter((t) => {
+        return t.todo_choices == "done";
+      });
+      setTodos({
+        needTodo: needTodo,
+        doingTodo: doingTodo,
+        doneTodo: doneTodo,
+      });
+    } catch (error) {
+      console.error(error);
     }
   }
 
@@ -51,25 +62,24 @@ function App() {
     } catch (error){
       console.error(error)
     }
-  }
+  };
 
   const handleDelete = async (event) => {
-    const idk = await axios.delete(localHost+'/'+ event.target.value )
-    getTodos()
-  }
+    const idk = await axios.delete(herokuSite + "/" + event.target.value);
+    getTodos();
+  };
 
   const handleUpdate = async (edit) => {
-    const idk = await axios.put(localHost+'/'+edit.id, edit)
-    getTodos()
-  }
+    const idk = await axios.put(herokuSite + "/" + edit.id, edit);
+    getTodos();
+  };
 
   const handleCreateUser = (user) => {
     axios
-      .post('http://localhost:8000/api/user', user)
+      .post("https://protected-woodland-92722.herokuapp.com/api/user", user)
       .then(
         (response) => {
           response.data = {id: response.data.id, username: response.data.username, list_names: '', requests: ''}
-          console.log(response.data)
           setCurrentUser(response.data)
           setLoginMessage('')
           toggleLogout()
@@ -78,15 +88,14 @@ function App() {
           handleListChange("personal-" + response.data.id)
         },
         (error) => {
-          console.error('Then Error: ', error.toJSON())
-          setLoginMessage('Username Already Exists')
+          console.error("Then Error: ", error.toJSON());
+          setLoginMessage("Username Already Exists");
         }
       )
       .catch((error) => {
-        console.error('Catch Error: ', error.toJSON())
-      })
-  }
-
+        console.error("Catch Error: ", error.toJSON());
+      });
+  };
   const handleDeleteUser = () => {
     axios
       .delete('http://localhost:8000/api/user/' + currentUser.id)
@@ -135,8 +144,12 @@ function App() {
         (error) => {
           setLoginMessage('Username or Password Incorrect')
         }
-      )
-  }
+      },
+      (error) => {
+        setLoginMessage("Username or Password Incorrect");
+      }
+    );
+  };
 
   const toggleLogout = () => {
     if (loggedIn ) {
@@ -148,9 +161,9 @@ function App() {
       setListSpecificTodos(todos)
       handleListChange("global")
     } else {
-      setLoggedIn(!loggedIn)
+      setLoggedIn(!loggedIn);
     }
-  }
+  };
 
   const handleListChange = (updatedList) => {
     setCurrentList(updatedList)
@@ -186,23 +199,34 @@ function App() {
   }
 
   useEffect(() => {
-    getTodos()
-  },[])
+    getTodos();
+  }, []);
 
   useEffect(() => {
     handleListChange(currentList)
   }, [todos, currentList, lists])
 
   return (
-    <div>
+    <div className="container">
+     
+
       <Nav handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={user} currentUser={currentUser} loginMessage={loginMessage} toggleLogout={toggleLogout} loggedIn={loggedIn} handleDeleteUser={handleDeleteUser} lists={lists} currentList={currentList} handleAddList={handleAddList} handleListChange={handleListChange}/>
-      <h1>Hi {currentUser.username}</h1>
-      <Add handleCreate={handleCreate} currentList={currentList}/>
-      <div className='mapColumnDiv'>
-        <MapColumn title="TODO"  todos={listSpecificTodos.needTodo}  handleUpdate={handleUpdate} handleDelete={handleDelete} />
-        <MapColumn title="DOING" todos={listSpecificTodos.doingTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
-        <MapColumn title="DONE" todos={listSpecificTodos.doneTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
-      </div>
+      <h1 style={{ marginTop: "3rem", color: "rgb(19,39,67)" }}>Hi{` ${currentUser.username}`}</h1>
+
+        <div className="globalChat">
+          
+        <GlobalChat user={currentUser}/>
+     </div>
+      
+      
+        <div>
+          <Add handleCreate={handleCreate} currentList={currentList}/>
+          <div className="mapColumnDiv" style={{ marginLeft: "30px", marginRight: "30px" }}>
+            <MapColumn title="TODO" todos={listSpecificTodos.needTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
+            <MapColumn title="DOING" todos={listSpecificTodos.doingTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
+            <MapColumn title="DONE" todos={listSpecificTodos.doneTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
+          </div>
+        </div>
     </div>
   );
 }
