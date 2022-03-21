@@ -20,7 +20,7 @@ function App() {
 
   const getTodos = async () => {
     try {
-      const allTodos = await axios.get(localHost);
+      const allTodos = await axios.get(herokuSite);
       const needTodo = allTodos.data.filter((t) => {
         return t.todo_choices == "todo";
       });
@@ -41,7 +41,7 @@ function App() {
   };
   const handleCreate = async (createTodo) => {
     try {
-      const idk = await axios.post(localHost, createTodo);
+      const idk = await axios.post(herokuSite, createTodo);
       getTodos();
     } catch (error) {
       console.error(error);
@@ -49,18 +49,18 @@ function App() {
   };
 
   const handleDelete = async (event) => {
-    const idk = await axios.delete(localHost + "/" + event.target.value);
+    const idk = await axios.delete(herokuSite + "/" + event.target.value);
     getTodos();
   };
 
   const handleUpdate = async (edit) => {
-    const idk = await axios.put(localHost + "/" + edit.id, edit);
+    const idk = await axios.put(herokuSite + "/" + edit.id, edit);
     getTodos();
   };
 
   const handleCreateUser = (user) => {
     axios
-      .post("http://localhost:8000/api/user", user)
+      .post("https://protected-woodland-92722.herokuapp.com/api/user", user)
       .then(
         (response) => {
           response.data = { id: response.data.id, username: response.data.username };
@@ -80,7 +80,7 @@ function App() {
   };
 
   const handleDeleteUser = () => {
-    axios.delete("http://localhost:8000/api/user/" + currentUser.id).then(
+    axios.delete("https://protected-woodland-92722.herokuapp.com/api/user/" + currentUser.id).then(
       (response) => {
         toggleLogout();
       },
@@ -91,7 +91,7 @@ function App() {
   };
 
   const handleLogin = (user) => {
-    axios.put("http://localhost:8000/api/user/login", user).then(
+    axios.put("https://protected-woodland-92722.herokuapp.com/api/user/login", user).then(
       (response) => {
         if (response.data.username) {
           response.data = { id: response.data.id, username: response.data.username };
