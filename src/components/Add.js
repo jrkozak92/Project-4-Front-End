@@ -10,6 +10,7 @@ const Add = (props) => {
   const handleSubmit = (event) => {
     event.preventDefault();
     props.handleCreate(newTodo);
+    setnewTodo(emptyTodo)
   };
 
   return (
