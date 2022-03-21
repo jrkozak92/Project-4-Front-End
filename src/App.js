@@ -131,6 +131,7 @@ function App() {
       <h1 style={{ marginTop: "3rem", color: "rgb(19,39,67)" }}>Hi{` ${currentUser.username}`}</h1>
 
         <div className="globalChat">
+          
         <GlobalChat user={currentUser}/>
         </div>
       
