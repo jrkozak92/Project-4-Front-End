@@ -7,7 +7,6 @@ function GlobalChat() {
     const socketRef = useRef()
   // const socket = io.connect("http://localhost:4000")
 	
-
 	const handleChange = (e) => {
 		setMsg(e.target.value )
 	}
@@ -29,16 +28,24 @@ function GlobalChat() {
 		))
 	}
     
-  useEffect(
-  () => {
-    socketRef.current = io.connect("http://localhost:4000")
-    socketRef.current.on("message", (response) => {
-      setChat([ ...chat,  response])
-    })
-    return () => socketRef.current.disconnect()
-  },
-  [chat]
-  )
+    // INSUFFICENT RESOURECES  IF NOT IN USE EFFECT. BUT...
+  // NEED TWO USE EFFECT SO I DON'T HAVE TO RESET EVERY TIME I WANT TO UPDATE
+    useEffect(
+        () => {
+          socketRef.current = io.connect("https://shielded-caverns-61802.herokuapp.com/")
+          
+          return () => socketRef.current.disconnect()
+        },
+        []
+        )
+      
+    useEffect(() => {
+          // using once instead of .on in case I send too many listners and it stacks.s
+          socketRef.current.once("message", (response) => {
+            // console.log(chat);
+            setChat([ ...chat,  response])
+          })
+    },[chat])
 
 
   return(
