@@ -4,8 +4,9 @@ import Add from "./components/Add";
 import Edit from "./components/Edit";
 import MapColumn from "./components/MapColumn";
 import Nav from "./components/Nav";
-
+import GlobalChat from "./components/GlobalChat";
 import "./App.css";
+
 const herokuSite = "https://protected-woodland-92722.herokuapp.com/api/todo";
 const localHost = "http://localhost:8000/api/todo";
 
@@ -124,14 +125,27 @@ function App() {
 
   return (
     <div className="container">
+     
+
       <Nav handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={user} currentUser={currentUser} loginMessage={loginMessage} toggleLogout={toggleLogout} loggedIn={loggedIn} handleDeleteUser={handleDeleteUser} />
       <h1 style={{ marginTop: "3rem", color: "rgb(19,39,67)" }}>Hi{` ${currentUser.username}`}</h1>
+
+        <div className="globalChat">
+          
+        <GlobalChat user={currentUser}/>
+        </div>
+      
+      
+        <div>
       <Add handleCreate={handleCreate} />
       <div className="mapColumnDiv" style={{ marginLeft: "30px", marginRight: "30px" }}>
         <MapColumn title="TODO" todos={todos.needTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
         <MapColumn title="DOING" todos={todos.doingTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
         <MapColumn title="DONE" todos={todos.doneTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
-      </div>
+        </div>
+        </div>
+      
+
     </div>
   );
 }
