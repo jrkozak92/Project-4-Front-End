@@ -29,7 +29,7 @@ function App() {
 
   const getTodos = async () => {
     try {
-      const allTodos = await axios.get(localHost);
+      const allTodos = await axios.get(herokuSite);
       const needTodo = allTodos.data.filter((t) => {
         return t.todo_choices == "todo";
       });
@@ -52,7 +52,7 @@ function App() {
   const handleCreate = async (createTodo) => {
     try{
       createTodo.list_name = currentList
-      const idk = await axios.post(localHost, createTodo)
+      const idk = await axios.post(herokuSite, createTodo)
       getTodos()
     } catch (error){
       console.error(error)
@@ -60,12 +60,12 @@ function App() {
   };
 
   const handleDelete = async (event) => {
-    const idk = await axios.delete(localHost + "/" + event.target.value);
+    const idk = await axios.delete(herokuSite + "/" + event.target.value);
     getTodos();
   };
 
   const handleUpdate = async (edit) => {
-    const idk = await axios.put(localHost + "/" + edit.id, edit);
+    const idk = await axios.put(herokuSite + "/" + edit.id, edit);
     getTodos();
   };
 
@@ -93,7 +93,7 @@ function App() {
   };
   const handleDeleteUser = () => {
     axios
-      .delete('http://localhost:8000/api/user/' + currentUser.id)
+      .delete('https://protected-woodland-92722.herokuapp.com/api/user/' + currentUser.id)
       .then(
         (response) => {
           toggleLogout()
@@ -106,7 +106,7 @@ function App() {
 
   const handleLogin = (user) => {
     axios
-      .put('http://localhost:8000/api/user/login', user)
+      .put('https://protected-woodland-92722.herokuapp.com/api/user/login', user)
       .then(
         (response) => {
           if (response.data.username){
@@ -176,7 +176,7 @@ function App() {
     updatedUser.list_names = listList.join(", ")
     console.log("updateUser + listList at App level: ", updatedUser)
     axios
-      .put('http://localhost:8000/api/user/listupdate', updatedUser)
+      .put('https://protected-woodland-92722.herokuapp.com/api/user/listupdate', updatedUser)
       .then(
         (response) => {
           setLists(listList)
