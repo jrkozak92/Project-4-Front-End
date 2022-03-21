@@ -59,7 +59,7 @@ function App() {
 
   const handleCreateUser = (user) => {
     axios
-      .post("http://localhost:8000/api/user", user)
+      .post("https://protected-woodland-92722.herokuapp.com/api/user", user)
       .then(
         (response) => {
           response.data = { id: response.data.id, username: response.data.username };
@@ -79,7 +79,7 @@ function App() {
   };
 
   const handleDeleteUser = () => {
-    axios.delete("http://localhost:8000/api/user/" + currentUser.id).then(
+    axios.delete("https://protected-woodland-92722.herokuapp.com/api/user/" + currentUser.id).then(
       (response) => {
         toggleLogout();
       },
@@ -90,7 +90,7 @@ function App() {
   };
 
   const handleLogin = (user) => {
-    axios.put("http://localhost:8000/api/user/login", user).then(
+    axios.put("https://protected-woodland-92722.herokuapp.com/api/user/login", user).then(
       (response) => {
         if (response.data.username) {
           response.data = { id: response.data.id, username: response.data.username };
