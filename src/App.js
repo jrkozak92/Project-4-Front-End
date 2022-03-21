@@ -12,14 +12,9 @@ const localHost = "http://localhost:8000/api/todo";
 
 function App() {
   const [user, setUser] = useState({ username: "", password: "" });
-  const [currentUser, setCurrentUser] = useState({ id: "", username: "" });
+  const [currentUser, setCurrentUser] = useState({id: '', username: '', list_names: '', requests: ''})
   const [loginMessage, setLoginMessage] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
-
-  const [user, setUser] = useState({username: '', password: ''})
-  const [currentUser, setCurrentUser] = useState({id: '', username: '', list_names: '', requests: ''})
-  const [loginMessage, setLoginMessage] = useState('')
-  const [loggedIn, setLoggedIn] = useState(false)
   const [lists, setLists] = useState([""])
   const [currentList, setCurrentList] = useState('global')
 
@@ -34,7 +29,7 @@ function App() {
 
   const getTodos = async () => {
     try {
-      const allTodos = await axios.get(herokuSite);
+      const allTodos = await axios.get(localHost);
       const needTodo = allTodos.data.filter((t) => {
         return t.todo_choices == "todo";
       });
@@ -65,12 +60,12 @@ function App() {
   };
 
   const handleDelete = async (event) => {
-    const idk = await axios.delete(herokuSite + "/" + event.target.value);
+    const idk = await axios.delete(localHost + "/" + event.target.value);
     getTodos();
   };
 
   const handleUpdate = async (edit) => {
-    const idk = await axios.put(herokuSite + "/" + edit.id, edit);
+    const idk = await axios.put(localHost + "/" + edit.id, edit);
     getTodos();
   };
 
@@ -144,10 +139,7 @@ function App() {
         (error) => {
           setLoginMessage('Username or Password Incorrect')
         }
-      },
-      (error) => {
-        setLoginMessage("Username or Password Incorrect");
-      }
+
     );
   };
 
@@ -208,17 +200,17 @@ function App() {
 
   return (
     <div className="container">
-     
+
 
       <Nav handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={user} currentUser={currentUser} loginMessage={loginMessage} toggleLogout={toggleLogout} loggedIn={loggedIn} handleDeleteUser={handleDeleteUser} lists={lists} currentList={currentList} handleAddList={handleAddList} handleListChange={handleListChange}/>
       <h1 style={{ marginTop: "3rem", color: "rgb(19,39,67)" }}>Hi{` ${currentUser.username}`}</h1>
 
         <div className="globalChat">
-          
+
         <GlobalChat user={currentUser}/>
      </div>
-      
-      
+
+
         <div>
           <Add handleCreate={handleCreate} currentList={currentList}/>
           <div className="mapColumnDiv" style={{ marginLeft: "30px", marginRight: "30px" }}>
