@@ -2,7 +2,7 @@ import {useState} from 'react'
 
 
 const Add = (props) => {
-    let emptyTodo = { title: '', task: '' }
+    let emptyTodo = { title: '', task: ''}
     const [newTodo, setnewTodo] = useState(emptyTodo)
 
     const handleChange = (event) => {
@@ -14,7 +14,7 @@ const Add = (props) => {
     }
 
     return (
-        
+
       <>
         <form onSubmit={handleSubmit}>
           <label htmlFor="title">Title: </label>
@@ -28,5 +28,5 @@ const Add = (props) => {
       </>
     )
   }
-  
+
   export default Add

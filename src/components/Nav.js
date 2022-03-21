@@ -1,5 +1,6 @@
 import {useState} from 'react'
 import Login from './Login'
+import Lists from './Lists'
 
 const Nav = (props) => {
   const [selection, setSelection] = useState('')
@@ -22,6 +23,19 @@ const Nav = (props) => {
           null
         }
       </div>
+      { props.loggedIn ?
+        <div>
+          <p onClick={() => handleSelection('lists')}>Lists</p>
+          { selection === 'lists' ?
+            <Lists user={props.user} currentUser={props.currentUser} lists={props.lists} currentList={props.currentList} handleAddList={props.handleAddList}  handleListChange={props.handleListChange}/>
+              :
+            null
+          }
+        </div>
+         :
+        null
+      }
+
     </div>
   )
 }
