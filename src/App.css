@@ -1,1 +1,24 @@
+button:hover, input[type=submit]{
+    cursor:pointer;
+}
 /* DARWOOD TEMP CSS */
+.globalChatDiv{
+    /* background-color: aqua; */
+    border: 2px solid rgb(237, 201, 136);
+    background-color: rgb(19, 39, 67);
+    width:30%;
+    padding:20px;
+    max-height: 400px;
+    overflow-y: scroll;
+    position: absolute;
+    top:20px;
+    left:20px;
+    color:aliceblue;
+}
+.container{
+    position: relative;
+}
+
+.global-and-todos{
+    /* display: flex; */
+}

@@ -5,7 +5,7 @@ const Edit = (props) => {
 
   const handleChange = (event) => {
     setEditTodo({ ...editTodo, [event.target.name]: event.target.value });
-    console.log(editTodo.todo_choices);
+    // console.log(editTodo.todo_choices);
   };
   const handleSubmit = (event) => {
     event.preventDefault();

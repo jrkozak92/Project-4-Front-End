@@ -1,29 +1,32 @@
 import React, { useEffect, useRef, useState } from "react"
 import io from "socket.io-client"
+import "../App.css"
 
-function GlobalChat() {
+function GlobalChat(props) {
 	const [ msg, setMsg ] = useState("")
 	const [ chat, setChat ] = useState([])
+  const [currentUser, setCurrentUser] = useState(props.user)
     const socketRef = useRef()
   // const socket = io.connect("http://localhost:4000")
 	
 	const handleChange = (e) => {
 		setMsg(e.target.value )
+    setCurrentUser(props.user)
 	}
 
 	const onMessageSubmit = (e) => {
     e.preventDefault()
-		socketRef.current.emit("message", msg)
+		socketRef.current.emit("message", msg, currentUser.username)
     e.target.reset()
 		setMsg("")
 	}
 
 	const renderChat = () => {
 		return chat.map(( message , index) => (
-			<div key={index}>
-				<h3>
-					 <span>{message}</span>
-				</h3>
+			<div className="entireChat" key={index}>
+				<p className="message">
+					<span><strong> {message.name}</strong> </span>: <span>{message.message}</span>
+				</p>
 			</div>
 		))
 	}
@@ -41,20 +44,21 @@ function GlobalChat() {
       
     useEffect(() => {
           // using once instead of .on in case I send too many listners and it stacks.s
-          socketRef.current.once("message", (response) => {
-            // console.log(chat);
-            setChat([ ...chat,  response])
+          socketRef.current.once("message", (resMsg, resName) => {
+            setChat([ ...chat,  {name: resName, message: resMsg}])
           })
     },[chat])
 
 
   return(
-    <div>
+    <div className="globalChatDiv">
+      {renderChat()}
+      
       <form onSubmit={onMessageSubmit}>
         <input onChange={handleChange}/>
         <input type="submit" />
       </form>
-      {renderChat()}
+      
     </div>
   )
 
