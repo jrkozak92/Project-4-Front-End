@@ -18,14 +18,15 @@ const Edit = (props) => {
         <label htmlFor="title" style={{ color: "rgb(19,39,67)" }}>
           Title:{" "}
         </label>
-        <input type="text" name="title" onChange={handleChange} value={editTodo.title} style={{ backgroundColor: "rgb(248,239,212)" }} />
+        <input type="text" name="title" onChange={handleChange} value={editTodo.title} style={{ backgroundColor: "rgb(248,239,212)", borderRadius: "5px", padding: "3px" }} />
         <br />
         <br />
-        <label htmlFor="task" style={{ color: "rgb(19,39,67)", marginLeft: "3.30rem" }}>
+        <label htmlFor="task" style={{ color: "rgb(19,39,67)" }}>
           Task:{" "}
         </label>
-        <input type="text" name="task" onChange={handleChange} value={editTodo.task} style={{ backgroundColor: "rgb(248,239,212)" }} />
-        <select name="todo_choices" onChange={handleChange} value={editTodo.todo_choices} style={{ backgroundColor: "rgb(248,239,212)", color: "rgb(215,56,94)" }}>
+        <input type="text" name="task" onChange={handleChange} value={editTodo.task} style={{ backgroundColor: "rgb(248,239,212)", borderRadius: "5px", padding: "3px" }} />
+        <br />
+        <select name="todo_choices" onChange={handleChange} value={editTodo.todo_choices} style={{ backgroundColor: "rgb(248,239,212)", color: "rgb(215,56,94)", marginTop: "1rem", borderRadius: "20px" }}>
           <option value="todo">Todo</option>
           <option value="doing">Doing</option>
           <option value="done">Done</option>

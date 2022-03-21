@@ -125,9 +125,9 @@ function App() {
   return (
     <div className="container">
       <Nav handleCreateUser={handleCreateUser} handleLogin={handleLogin} user={user} currentUser={currentUser} loginMessage={loginMessage} toggleLogout={toggleLogout} loggedIn={loggedIn} handleDeleteUser={handleDeleteUser} />
-      <h1>Hi {currentUser.username}</h1>
+      <h1 style={{ marginTop: "3rem", color: "rgb(19,39,67)" }}>Hi{` ${currentUser.username}`}</h1>
       <Add handleCreate={handleCreate} />
-      <div className="mapColumnDiv" style={{ marginBottom: "30px", marginLeft: "15px", marginRight: "15px" }}>
+      <div className="mapColumnDiv" style={{ marginLeft: "30px", marginRight: "30px" }}>
         <MapColumn title="TODO" todos={todos.needTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
         <MapColumn title="DOING" todos={todos.doingTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />
         <MapColumn title="DONE" todos={todos.doneTodo} handleUpdate={handleUpdate} handleDelete={handleDelete} />

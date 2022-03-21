@@ -56,11 +56,11 @@ const Login = (props) => {
         <>
           {!showAccountSettings ? (
             <>
-              <button onClick={handleLogout} style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "10px", fontSize: "1rem", padding: "4px 7px" }}>
+              <button onClick={handleLogout} style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "20px", fontSize: "1rem", padding: "4px 7px" }}>
                 Logout
               </button>
               <br />
-              <button onClick={toggleShowSettings} style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "10px", fontSize: "1rem", padding: "4px 7px" }}>
+              <button onClick={toggleShowSettings} style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "30px", fontSize: "1rem", padding: "4px 7px" }}>
                 Account Settings
               </button>
               <br />
@@ -84,14 +84,14 @@ const Login = (props) => {
                 </>
               ) : (
                 <>
-                  <button onClick={togglePasswordForm} style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "10px", fontSize: "1rem", padding: "4px 7px" }}>
+                  <button onClick={togglePasswordForm} style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", fontSize: "1rem", padding: "4px 7px" }}>
                     Change Password
                   </button>
                 </>
               )}
               <br />
-              <br />
-              <button onClick={toggleShowSettings} style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "10px", fontSize: "1rem", padding: "4px 7px" }}>
+
+              <button onClick={toggleShowSettings} style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "30px", marginTop: "20px", fontSize: "1rem", padding: "4px 7px" }}>
                 Back
               </button>
             </>
@@ -108,7 +108,7 @@ const Login = (props) => {
                 <p>{props.loginMessage}</p>
                 <input type="submit" value="Create Account" style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "10px", fontSize: "1rem", padding: "4px 7px" }} />
               </form>
-              <button onClick={() => setAccountCreate(!accountCreate)} style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "10px", fontSize: "1rem", padding: "4px 7px" }}>
+              <button onClick={() => setAccountCreate(!accountCreate)} style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "30px", fontSize: "1rem", padding: "4px 7px" }}>
                 I have an Account
               </button>
             </>
@@ -121,7 +121,7 @@ const Login = (props) => {
                 <p>{props.loginMessage}</p>
                 <input type="submit" value="Login" style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "10px", fontSize: "1rem", padding: "4px 7px" }} />
               </form>
-              <button onClick={() => setAccountCreate(!accountCreate)} style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "10px", fontSize: "1rem", padding: "4px 7px" }}>
+              <button onClick={() => setAccountCreate(!accountCreate)} style={{ backgroundColor: "rgb(237,201,136)", color: "rgb(19,39,67)", borderRadius: "15px", marginBottom: "30px", marginTop: "20px", fontSize: "1rem", padding: "4px 7px" }}>
                 I don't have an Account
               </button>
             </>
