@@ -23,7 +23,7 @@ const MapColumn = (props) => {
               onClick={() => {
                 toggleShowForm(todo.id);
               }}
-              style={{ fontSize: "1.5rem" }}
+              style={{ fontSize: "1.5rem", marginTop: "1rem", marginBottom: "1rem" }}
             >
               {todo.title}
             </h5>
